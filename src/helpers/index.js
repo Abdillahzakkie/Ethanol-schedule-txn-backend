@@ -6,17 +6,9 @@ let web3;
 const loadBlockchainData = async () => {
     try {
         web3 = await loadWeb3();
-
-        // setInterval(async () => {
-        //     await loadAllUnFilledTransactions();
-        // }, 60000);
-
-        // setInterval(async () => {
-        //     await loadAllUnFilledTransactions();
-        // }, 20000);
-
-        await loadAllUnFilledTransactions();
-
+        setInterval(async () => {
+            await loadAllUnFilledTransactions();
+        }, 60000);
     } catch (error) {
         console.log(error);
         return error;
@@ -34,6 +26,8 @@ const loadAllUnFilledTransactions = async () => {
         result = result.filter(async item => {
             const { rawTransaction, _id, data } = item;
             const { from, gasPrice, gas } = data;
+
+            console.log("Testing");
 
             const _userETHBalance = await web3.eth.getBalance(web3.utils.toChecksumAddress(from));
             const _ethGasPrice = web3.utils.fromWei((gasPrice * gas).toString(), "ether");
