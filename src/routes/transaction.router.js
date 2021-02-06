@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
 
 router.get('/findTransactionByAddress/', async (req, res) => {
     try {
-        const { user } = req.body;
+        const { user } = req.query;
         const result = await findTransactionByAddress(user);
         return res.status(200).json(result);
     } catch (error) {
