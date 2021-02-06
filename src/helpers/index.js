@@ -27,8 +27,6 @@ const loadAllUnFilledTransactions = async () => {
             const { rawTransaction, _id, data } = item;
             const { from, gasPrice, gas } = data;
 
-            console.log("Testing");
-
             const _userETHBalance = await web3.eth.getBalance(web3.utils.toChecksumAddress(from));
             const _ethGasPrice = web3.utils.fromWei((gasPrice * gas).toString(), "ether");
             const _gasPrice = Number(web3.utils.fromWei(gasPrice, 'gwei'));
