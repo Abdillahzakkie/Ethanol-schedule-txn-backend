@@ -46,7 +46,7 @@ router.patch('/cancelTransaction', async (req, res) => {
     }
 })
 
-router.get('/cancelledAll', async (req, res) => {
+router.get('/getAllCancelledTranscations', async (req, res) => {
     try {
         const result = await getAllCancelledTranscations();
         res.status(200).json(result);
