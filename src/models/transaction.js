@@ -33,6 +33,11 @@ const TransactionSchema = new mongoose.Schema({
         type: Boolean,
         required: false,
         default: false
+    },
+    cancelled: {
+        type: Boolean,
+        required: true,
+        default: false
     }
 }, {
     timestamps: true

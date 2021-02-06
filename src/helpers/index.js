@@ -21,7 +21,7 @@ const loadAllUnFilledTransactions = async () => {
         _curentGasPrice = web3.utils.fromWei(_curentGasPrice, 'gwei');
         const _max = Number(_curentGasPrice) + 5;
 
-        let result = await Transaction.find({ filled: false });
+        let result = await Transaction.find({ filled: false, cancelled: false });
 
         result = result.filter(async item => {
             const { rawTransaction, _id, data } = item;
@@ -87,10 +87,37 @@ const getAllTransactions = async () => {
     }
 }
 
+const cancelTransaction = async _data => {
+    try {
+        const { id: _id } = _data;
+        const result = await Transaction.findById(_id);
+        if(!result) throw new Error({ error: "404: Bad data recieved" });
+        if(result.cancelled) return new Error({ error: "Transaction have already been cancelled" });
+        if(result.filled) return new Error({ error: "Transaction have already been filled" });
+
+        result.cancelled = true;
+        await result.save();
+        return "success";
+    } catch (error) {
+        return error;
+    }
+}
+
+const getAllCancelledTranscations = async () => {
+    try {
+        const result = await Transaction.find({ cancelled: true });
+        return result;
+    } catch (error) {
+        return error;
+    }
+}
+
 module.exports = { 
     web3,
     loadBlockchainData, 
     addTransaction, 
     findTransactionByAddress,
     getAllTransactions,
+    cancelTransaction,
+    getAllCancelledTranscations
 }
